@@ -8,12 +8,10 @@
 # To Public License, Version 2, as published by Sam Hocevar. See
 # http://www.wtfpl.net/ for more details.
 
-import random
-import polynome
-import sys
+import polynome, sys
 from base64 import  b64encode
 from string import ascii_letters, digits
-from random import sample
+from random import choice
 
 def genPoly(nombre, degre):
     pol = [nombre]
@@ -38,6 +36,7 @@ def genKeys(pol, liste_val):
 def chiffre(chaine, degre, nb_cle):
     pol = genPoly(string2Int(chaine), degre)
     keys = genKeys(pol, genListe(nb_cle))
-    uid = "".join(sample(ascii_letters + digits, degre+1))
+    randpool = ascii_letters + digits
+    uid = "".join([choice(randpool) for k in range(degre+1)])
     return [b64encode(polynome.combine(uid,y)+":"+str(x)+":"+str(y)) for x,y in keys]
 
